@@ -2,7 +2,7 @@ def Solution(a, b, target):
     visited = set()
 
     def dfs(x, y, path):
-        # invalid state
+    
         if x < 0 or y < 0 or x > a or y > b:
             return False
 
@@ -53,3 +53,4 @@ if __name__ == "__main__":
     Jug2 = int(input("Enter the capacity of Jug2: "))
     target = int(input("Enter the target: "))
     Solution(Jug1, Jug2, target)
+
