@@ -32,7 +32,7 @@ def Solution(a, b, target):
         pour = min(x, b - y)
         next_states.append((x - pour, y + pour))
 
-        # pour jug2 -> jug1
+
         pour = min(y, a - x)
         next_states.append((x + pour, y - pour))
 
@@ -48,3 +48,4 @@ if __name__ == "__main__":
     Jug2 = int(input("Enter the capacity of Jug2: "))
     target = int(input("Enter the target: "))
     Solution(Jug1, Jug2, target)
+
