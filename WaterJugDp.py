@@ -1,51 +1,37 @@
-from collections import deque
+from collections import defaultdict
 
-def water_jug_dp(a, b, target):
-   
-    dp = [[False] * (b + 1) for _ in range(a + 1)]
-    
-    parent = {}
-    
-    q = deque()
-    q.append((0, 0))
-    dp[0][0] = True
-    parent[(0, 0)] = None
-
-    while q:
-        x, y = q.popleft()
-
-       
-        if x == target or y == target:
-            print("Path from initial state to solution state ::")
-            path = []
-            cur = (x, y)
-            while cur is not None:
-                path.append(cur)
-                cur = parent[cur]
-            for state in reversed(path):
-                print(state)
-            return
-
-       
-        next_states = [
-            (a, y),          
-            (x, b),          
-            (0, y),            
-            (x, 0),           
-            (x - min(x, b - y), y + min(x, b - y)), 
-            (x + min(y, a - x), y - min(y, a - x))          ]
-
-        for nx, ny in next_states:
-            if not dp[nx][ny]:
-                dp[nx][ny] = True
-                parent[(nx, ny)] = (x, y)
-                q.append((nx, ny))
-
-    print("Solution not possible")
+jug1, jug2, aim = 4, 3, 2
+visited = defaultdict(lambda: False)
 
 
-if __name__ == "__main__":
-    Jug1 = int(input("Enter the capacity of Jug1: "))
-    Jug2 = int(input("Enter the capacity of Jug2: "))
-    target = int(input("Enter the target: "))
-    water_jug_dp(Jug1, Jug2, target)
+def waterJugSolver(amt1, amt2):
+
+    if (amt1 == aim and amt2 == 0) or (amt2 == aim and amt1 == 0):
+        print(amt1, amt2)
+        return True
+
+    if visited[(amt1, amt2)] == False:
+        print(amt1, amt2)
+        visited[(amt1, amt2)] = True
+
+        return (
+            waterJugSolver(0, amt2) or
+            waterJugSolver(amt1, 0) or
+            waterJugSolver(jug1, amt2) or
+            waterJugSolver(amt1, jug2) or
+            waterJugSolver(
+                amt1 + min(amt2, (jug1 - amt1)),
+                amt2 - min(amt2, (jug1 - amt1))
+            ) or
+            waterJugSolver(
+                amt1 - min(amt1, (jug2 - amt2)),
+                amt2 + min(amt1, (jug2 - amt2))
+            )
+        )
+    else:
+        return False
+
+
+print("Steps:")
+waterJugSolver(0, 0)
+
